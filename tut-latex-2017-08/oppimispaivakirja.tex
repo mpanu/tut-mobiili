@@ -183,11 +183,10 @@
 			\hline
 			\hline
 			10. - 20.10.2017 & 8h & Andoid-ohjelmointiin ja kurssin materiaaleihin tutustumista\\
-			\hline
 			20. -30.10.2017 & 10h & Android Studion asennus Linux-koneeseen. Hello World 
 			pyˆrim‰‰n emulaattoriin ja omaan Huawei Honor 8 -laitteeseen.\\
-			\hline
 			31.10.2017 & 8h & Opintop‰iv‰kirjan aloitus. Latexiin tutustumista. Git-repon perustus\\
+			1.-20.10.2017 & 50h & Developing Android Apps -MOOC -kurssi\\
 			\hline
 		\end{tabular}
 \end{table}
@@ -195,7 +194,7 @@
 
 
 
-\chapter{Harjoitukset}
+\chapter{Harjoitukset1}
 
 \section{Harjoitus1}
 
@@ -207,6 +206,34 @@ Android-laitteiden sovelluksia kehitet‰‰n tyypillisesti JetBrainsin InteliJ Idea
 
 Git-repo perustettu
 https://github.com/mpanu/tut-mobiili
+
+
+\chapter{Harjoitus 11-19}
+
+\section{FavouriteToys}
+Opeteltiin androidin perusteet, miten xml- ja java-koodit ovat yhteydess‰ (xml:n viittataminen R:n kautta yms.).
+Tehtiin yksinkertainen tekstilista ja lis‰ttiin se ScrollViewiin
+
+\section{GitHub repo}
+Android-platform ei salli verkkohakujen 
+tekemist‰ UI-threadiss‰ koska se saattaisi
+"j‰‰dytt‰‰" UI:n. T‰ss‰ harjoituksessa
+perehdyttiin verkkohaun tekemiseen
+AsyncTask:n avulla. Tutustuttiin myˆs permissioihin. 
+AndroidManifest.xml:n tulee lis‰t‰ 
+<uses-permission android:name="android.permission.INTERNET" />
+jotta sovellus kysyy asenettaessa k‰ytt‰j‰lt‰ luvan
+verkon k‰ytt‰miseen.
+
+\section{RecyclerView}
+RecyclerView mahdollistaa UI-komponenttien uudelleenk‰yton. T‰st‰
+on hyˆty‰ silloin kun halutaan tarjota "ikkuna" isompaan datam‰‰r‰‰n.
+RecyclerView "kierr‰tt‰‰" UI-komponentit, joten skrollatessa paljastuvia
+komponentteja ei tarvitse kutsua findById:ll‰ joka kerta kun ne ilmestyv‰t 
+n‰kyviin.
+
+
+
 
 \section{Chapter X}
 
