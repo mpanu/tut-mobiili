@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <Button
@@ -48,7 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Laske" />
+                android:text="Laske"
+                android:textAllCaps="false" />
 
             <TextView
                 android:id="@+id/plussatulos"
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <TextView
@@ -89,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <Button
@@ -97,7 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Laske" />
+                android:text="Laske"
+                android:textAllCaps="false" />
 
             <TextView
                 android:id="@+id/miinustulos"
@@ -121,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <TextView
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <Button
@@ -146,7 +148,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Laske" />
+                android:text="Laske"
+                android:textAllCaps="false" />
 
             <TextView
                 android:id="@+id/kertotulos"
@@ -170,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <TextView
@@ -187,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="0" />
 
             <Button
@@ -195,7 +198,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Laske" />
+                android:text="Laske"
+                android:textAllCaps="false" />
 
             <TextView
                 android:id="@+id/jakotulos"
@@ -218,14 +222,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tyhjennä kaikki" />
+                android:text="Tyhjennä kaikki"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/logi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Näytä Logi" />
+                android:text="Näytä Logi"
+                android:textAllCaps="false" />
         </LinearLayout>
 
     </LinearLayout>
