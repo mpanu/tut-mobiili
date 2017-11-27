@@ -1,5 +1,6 @@
 package fi.tut.matti.laskukone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //laskukone
         addLaskeButtonHandler((Button)findViewById(R.id.plussabutton), "+");
         addLaskeButtonHandler((Button)findViewById(R.id.miinusbutton), "-");
         addLaskeButtonHandler((Button)findViewById(R.id.kertobutton), "x");
         addLaskeButtonHandler((Button)findViewById(R.id.jakobutton), "/");
 
+        //tyhjennä-nappi
         final Button tyhjennaBtn = findViewById(R.id.tyhjenna);
         final List<TextView> clearableViews = getViewsToClear();
         tyhjennaBtn.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +41,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //logi-nappi
+        final Button logButton = findViewById(R.id.logi);
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Class destinationActivity = MathLogActivity.class;
+                Intent startChildActivityIntent = new Intent(MainActivity.this,
+                        destinationActivity);
+                startActivity(startChildActivityIntent);
+            }
+        });
+
+
     }
 
     /** find views that should be set to 0 with the button */
