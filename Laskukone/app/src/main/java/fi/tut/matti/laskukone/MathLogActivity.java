@@ -17,9 +17,13 @@ package fi.tut.matti.laskukone;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MathLogActivity extends AppCompatActivity {
+    private static final String TAG = MathLogActivity.class.getName();
 
     /* Field to store our TextView */
     private TextView mDisplayText;
@@ -29,7 +33,24 @@ public class MathLogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mathlog);
 
-        /* Typical usage of findViewById... */
         mDisplayText = (TextView) findViewById(R.id.tv_display);
+        mDisplayText.setText(FileUtils.lueTiedostosta(MathLogActivity.this));
+
+    }
+
+    // näytä menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    //tyhjennä logi menusta
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FileUtils.clearLog(MathLogActivity.this);
+        mDisplayText.setText("");
+        return true;
     }
 }

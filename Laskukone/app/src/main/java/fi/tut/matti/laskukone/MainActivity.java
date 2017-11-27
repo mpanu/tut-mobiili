@@ -1,9 +1,12 @@
 package fi.tut.matti.laskukone;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +16,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/** code has a lot of indexes (magic numbers). I know this is bad practice
- * but just wanted to avoid tedious duplicate code and to learn parent/sibling handling.
- * should have probably used a grid for the calculators and have named columns etc.
- */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startChildActivityIntent);
             }
         });
+    }
 
+    // näytä menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    //tyhjennä logi menusta
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FileUtils.clearLog(MainActivity.this);
+        TextView tv = (TextView) findViewById(R.id.tv_display);
+        if(tv != null)
+            tv.setText("");
+        return true;
     }
 
     /** find views that should be set to 0 with the button */
@@ -85,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 double eka = Double.parseDouble(ekaText.getText().toString());
                 double toka = Double.parseDouble(tokaText.getText().toString());
-                tulosText.setText(laske(eka,toka,operation)+"");
+                String tulos = laske(eka,toka,operation)+"";
+                tulosText.setText(tulos);
+                //kirjoita logi
+                FileUtils.kirjoitaTiedostoon(MainActivity.this, eka+operation+toka+"="+tulos+"\n");
             }
         });
     }
@@ -100,9 +119,8 @@ public class MainActivity extends AppCompatActivity {
             return eka*toka;
         }else if(operation.equals("/")){
             return eka/toka;
-        } else {
-            Log.e("tag", "serious error, unsupported operation");
-            return -1;
         }
+        Log.e(TAG, "unsupported math operation");
+        return Double.MIN_VALUE;
     }
 }
