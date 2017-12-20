@@ -224,7 +224,90 @@ https://github.com/mpanu/tut-mobiili/tree/master/Laskukone
 \includegraphics[scale=0.35]{perus}
 \includegraphics[scale=0.35]{logi}
 
+\newpage
+\section{MainActivity.java}
+Laskimen UI on toteutettu XML:llä. XML:n copy-paste on ihan kätevää mutta näkymien luonti suoraan javasta voisi olla tällaisissa tapauksissa joustavampaa. 
 
+MainActivityn onCreate -metodissa annetaan käsittelijät operaatio-napeille:
+
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+addLaskeButtonHandler((Button)findViewById(R.id.plussabutton), "+");
+addLaskeButtonHandler((Button)findViewById(R.id.miinusbutton), "-");
+addLaskeButtonHandler((Button)findViewById(R.id.kertobutton), "x");
+addLaskeButtonHandler((Button)findViewById(R.id.jakobutton), "/");
+\end{lstlisting}
+
+Metodin addLaskeButtonHandler(Button btn, final String operation) toiminta nojaa oletukseen että syöttö- ja 
+tulostus-komponentit ovat aina samassa järjestyksessä joten niihin voi voi viitata lapsen indeksillä.
+
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+LinearLayout buttonParentLayout = (LinearLayout) btn.getParent();
+EditText ekaText = (EditText) buttonParentLayout.getChildAt(0);
+EditText tokaText = (EditText) buttonParentLayout.getChildAt(2);
+TextView tulosText = (TextView) buttonParentLayout.getChildAt(4);
+\end{lstlisting} 
+
+Parametrina saatavalle napille annetaan click-käsittelijä.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+btn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        double eka = Double.parseDouble(ekaText.getText().toString());
+        double toka = Double.parseDouble(tokaText.getText().toString());
+        String tulos = laske(eka,toka,operation)+"";
+        tulosText.setText(tulos);
+        //kirjoita logi
+        FileUtils.kirjoitaTiedostoon(MainActivity.this, 
+                                     eka+operation+toka+"="+tulos+"\n");
+    }
+});
+\end{lstlisting} 
+
+Login tyhjennys tapahtuu oletustyylisen MenuItemin kautta seuraavasti.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+public boolean onOptionsItemSelected(MenuItem item) {
+    FileUtils.clearLog(MainActivity.this);
+    TextView tv = (TextView) findViewById(R.id.tv_display);
+    if(tv != null)
+        tv.setText("");
+    return true;
+}
+\end{lstlisting}
+
+''Tyhjennä Kaikki'' -napin vaikutuspiiriin kuuluvat näkymät etsitään addLaskeButtonHandler-metodia vastaavalla tekniikalla 
+loopissa indeksin perusteella. Napille annetaan käsittelijä seuraavasti.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+tyhjennaBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        for(TextView clearableView : clearableViews){
+            clearableView.setText("0");
+        }
+    }
+});
+\end{lstlisting}
+
+''Näytä Logi'' -nappi avaa uuden näkymän joka koostuu yhdestä TextView-komponentista. Se lukee sisältönsä tiedostosta auetessaan ja myös sisältää menun joka mahdollistaa login tyhjentämisen. Login toiminnallisuus on MathLogActivity -luokassa. Logi avataan seuraavalla tavalla.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+final Button logButton = findViewById(R.id.logi);
+logButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Class destinationActivity = MathLogActivity.class;
+        Intent startChildActivityIntent = new Intent(MainActivity.this,
+                destinationActivity);
+        startActivity(startChildActivityIntent);
+    }
+});
+\end{lstlisting}
+
+Tidoston käsittely on erotettu omaan FileUtils -luokkaan joka sisältää metodit kirjoitaTiedostoon, lueTiedostosta ja clearLog.
 
 \chapter{Harjoitus 11-19}
 
