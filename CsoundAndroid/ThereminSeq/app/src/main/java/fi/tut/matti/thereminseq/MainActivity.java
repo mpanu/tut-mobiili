@@ -52,7 +52,22 @@ public class MainActivity extends Activity implements
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, pitch.value + " = piitch", Toast.LENGTH_SHORT).show();
+                if(startStopButton.isChecked()){
+                    startStopButton.setChecked(false);
+                }
+                String csd = getResourceFileAsString(R.raw.score_osc);
+                File f = createTempFile(csd);
+                csoundObj.startCsound(f);
+
+                String score = "";
+                double beatLength = 1;
+                int i = 0;
+                for(double d : seqList){
+                    // instNbr startBeat durBeats ... instParams=pitch
+                    score += "i 1 " + i * beatLength + " .5 " + d + "\n";
+                }
+                csoundObj.sendScore(score);
+
             }
         });
 
