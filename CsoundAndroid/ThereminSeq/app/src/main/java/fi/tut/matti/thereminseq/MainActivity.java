@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 
 import com.csounds.CsoundObj;
 import com.csounds.CsoundObjListener;
+import com.csounds.bindings.CsoundBinding;
 import com.csounds.bindings.motion.CsoundMotion;
 
 import java.io.BufferedReader;
@@ -23,11 +24,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import csnd6.Csound;
+
 public class MainActivity extends Activity implements
         CsoundObjListener {
     private final String TAG = MainActivity.class.getName();
     protected CsoundObj csoundObj = new CsoundObj(true,true);
-    ToggleButton startStopButton = null;
+    private ToggleButton startStopButton = null;
+    private Button playBtn;
+    private PitchBinding pitch = new PitchBinding();
 
 
     @Override
@@ -36,6 +41,16 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
 
         csoundObj.setMessageLoggingEnabled(true);
+
+        csoundObj.addBinding(pitch);
+
+        playBtn = findViewById(R.id.playBtn);
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, pitch.pitch+" = piitch", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         startStopButton = findViewById(R.id.mute);
         startStopButton
@@ -67,10 +82,8 @@ public class MainActivity extends Activity implements
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         csoundObj.stop();
-
     }
 
     protected String getResourceFileAsString(int resId) {
