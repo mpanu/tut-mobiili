@@ -494,7 +494,23 @@ näkyviin.
 
 
 
-\section{Chapter X}
+\chapter{Laaja harjoitustyö}
+CsoundAccelerometerBindingjava hakee kiihtyvyysanturit. TYPE\_ACCELEROMETER -tyypin sensoireiden arvoissa on mukana sekä painovaoima että voima, x-, y- ja z-akseleiden suhteen. 
+\begin{lstlisting}[style=console, % title={Template files}
+]
+sensorManager = (SensorManager) context.
+        getSystemService(Context.SENSOR_SERVICE);
+    List<Sensor> sensors = sensorManager.getSensorList(
+        Sensor.TYPE_ACCELEROMETER);
+\end{lstlisting}
+
+CsoundAccelerometerBinding-luokka implementoi Androidin SensorEventListener -rajapinnan ja se kytketään SensorManageriin seuraavaslla tavalla.
+
+\begin{lstlisting}[style=console, % title={Template files}
+]
+sensorManager.registerListener(this, sensor, 
+    SensorManager.SENSOR_DELAY_FASTEST);
+\end{lstlisting}
 
 This document template conforms to Guide to Writing a Thesis Tampere
 University of technology (TUT) \cite{thesisguide13}. A thesis or a
