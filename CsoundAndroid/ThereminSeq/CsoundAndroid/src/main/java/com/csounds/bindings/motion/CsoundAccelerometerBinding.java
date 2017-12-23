@@ -90,7 +90,6 @@ public class CsoundAccelerometerBinding extends AbstractBinding implements Senso
 			channelPtrX.SetValue(0, x);
 			channelPtrY.SetValue(0, y);
 			channelPtrZ.SetValue(0, z);
-			Log.e("kukkuu", x + " y: " + y + " z: " + z);
 		}
 	}
 	
@@ -119,8 +118,6 @@ public class CsoundAccelerometerBinding extends AbstractBinding implements Senso
 		  x = event.values[0];  
           y = event.values[1]; 
           z = event.values[2];
-
-          Log.e("kukkuu", x + " " + y + " " + z);
    	}
 
 }
