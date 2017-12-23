@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    String csd = getResourceFileAsString(R.raw.hardware_test);
+                    String csd = getResourceFileAsString(R.raw.accel_osc);
                     File f = createTempFile(csd);
 
                     CsoundMotion csoundMotion = new CsoundMotion(csoundObj);
