@@ -2,19 +2,15 @@ package fi.tut.matti.thereminseq;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.csounds.CsoundObj;
 import com.csounds.CsoundObjListener;
-import com.csounds.bindings.CsoundBinding;
 import com.csounds.bindings.motion.CsoundMotion;
 
 import java.io.BufferedReader;
@@ -23,61 +19,65 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import csnd6.Csound;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements
         CsoundObjListener {
     private final String TAG = MainActivity.class.getName();
-    protected CsoundObj csoundObj = new CsoundObj(true,true);
+    protected CsoundObj csoundObj = new CsoundObj(true, true);
     private ToggleButton startStopButton = null;
     private Button playBtn;
+    private Button saveBtn;
     private PitchBinding pitch = new PitchBinding();
+    private List<Double> seqList = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         csoundObj.setMessageLoggingEnabled(true);
-
         csoundObj.addBinding(pitch);
+
+        saveBtn = findViewById(R.id.saveBtn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                seqList.add(pitch.value);
+            }
+        });
 
         playBtn = findViewById(R.id.playBtn);
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, pitch.pitch+" = piitch", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, pitch.value + " = piitch", Toast.LENGTH_SHORT).show();
             }
         });
 
         startStopButton = findViewById(R.id.mute);
-        startStopButton
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        startStopButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        if (isChecked) {
-                            String csd = getResourceFileAsString(R.raw.hardware_test);
-                            File f = createTempFile(csd);
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    String csd = getResourceFileAsString(R.raw.hardware_test);
+                    File f = createTempFile(csd);
 
-                            CsoundMotion csoundMotion = new CsoundMotion(csoundObj);
-                            csoundMotion.enableAccelerometer( MainActivity.this);
+                    CsoundMotion csoundMotion = new CsoundMotion(csoundObj);
+                    csoundMotion.enableAccelerometer(MainActivity.this);
 
-                            csoundObj.startCsound(f);
-                            keepScreenOn(true);
-                        } else {
-                            csoundObj.stop();
-                            keepScreenOn(false);
-                        }
+                    csoundObj.startCsound(f);
+                    keepScreenOn(true);
+                } else {
+                    csoundObj.stop();
+                    keepScreenOn(false);
+                }
 
-                    }
-                });
-
-        Toast.makeText(this, checkAudioCapabilities(), Toast.LENGTH_SHORT).show();
-
-
+            }
+        });
+        Toast.makeText(this, checkAudioCapabilities(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -120,19 +120,19 @@ public class MainActivity extends Activity implements
         return f;
     }
 
-    private String checkAudioCapabilities(){
+    private String checkAudioCapabilities() {
         String text = "";
         boolean hasLowLatencyFeature =
                 getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUDIO_LOW_LATENCY);
         boolean hasProFeature =
                 getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUDIO_PRO);
-        if(hasLowLatencyFeature)
+        if (hasLowLatencyFeature)
             text = "android.hardware.audio.low_latency indicates a continuous "
                     + "output latency of 45 ms or less.\n";
-        if(hasProFeature)
+        if (hasProFeature)
             text += " android.hardware.audio.pro indicates a continuous "
-                    +"round-trip latency of 20 ms or less.\n";
-        if(!hasLowLatencyFeature && !hasProFeature)
+                    + "round-trip latency of 20 ms or less.\n";
+        if (!hasLowLatencyFeature && !hasProFeature)
             text = "No Android Compatibility Definition Document (CDD) compatible "
                     + "low latency capabilities reported by device.\n";
         return text;
@@ -148,8 +148,8 @@ public class MainActivity extends Activity implements
 
     }
 
-    private void keepScreenOn(boolean yes){
-        if(yes)
+    private void keepScreenOn(boolean yes) {
+        if (yes)
             getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         else
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

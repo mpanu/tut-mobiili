@@ -21,13 +21,13 @@ kaccelZ chnget "accelerometerZ"
 ;kattRoll chnget "attitudeRoll" 
 ;kattPitch chnget "attitudePitch" 
 ;kattYaw chnget "attitudeYaw" 
-kaccelX port kaccelX / 20, 0.01
-kaccelY port kaccelY / 20, 0.01
-kaccelZ port kaccelZ / 20, 0.01
+kaccelX port kaccelX, 0.001
+kaccelY port kaccelY, 0.001
+kaccelZ port kaccelZ, 0.001
 
 ;kcutoff = 4000 + (2000 * kaccelX)
 ;kresonance = .6 + (.3  * kaccelY)
-kpch = 500 + (kaccelX + kaccelY) * 1000
+kpch = 80 + (kaccelX + kaccelY + 20) * 40
 
 chnset kpch, "pitch"
 

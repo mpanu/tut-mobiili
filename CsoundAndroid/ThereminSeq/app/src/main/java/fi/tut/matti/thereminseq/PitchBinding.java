@@ -7,7 +7,7 @@ import csnd6.Csound;
 
 class PitchBinding implements CsoundBinding {
     private CsoundObj csoundObj = null;
-    public double pitch;
+    public double value;
 
     @Override
     public void setup(CsoundObj csoundObj) {
@@ -22,7 +22,7 @@ class PitchBinding implements CsoundBinding {
     @Override
     public void updateValuesFromCsound() {
         Csound csound = csoundObj.getCsound();
-        pitch = csound.GetChannel("pitch");
+        value = csound.GetChannel("value");
     }
 
     @Override
