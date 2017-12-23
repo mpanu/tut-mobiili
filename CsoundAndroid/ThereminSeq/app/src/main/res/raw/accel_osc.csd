@@ -22,7 +22,7 @@ kpch = 80 + (kaccelX + kaccelY + 20) * 40
 
 chnset kpch, "pitch"
 
-a1 vco2 .8, kpch
+a1 vco2 .5, kpch
 
 aL, aR reverbsc a1, a1, .72, 5000
 

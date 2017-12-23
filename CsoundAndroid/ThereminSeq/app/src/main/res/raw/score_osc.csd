@@ -10,7 +10,7 @@ sr = 48000
 
 instr 1
 
-a1 vco2 .8, p4
+a1 vco2 .5, p4
 
 aL, aR reverbsc a1, a1, .72, 5000
 
