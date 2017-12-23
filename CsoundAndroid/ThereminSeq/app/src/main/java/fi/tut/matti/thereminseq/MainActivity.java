@@ -51,8 +51,10 @@ public class MainActivity extends Activity implements
                             csoundMotion.enableAccelerometer( MainActivity.this);
 
                             csoundObj.startCsound(f);
+                            keepScreenOn(true);
                         } else {
                             csoundObj.stop();
+                            keepScreenOn(false);
                         }
 
                     }
@@ -131,5 +133,12 @@ public class MainActivity extends Activity implements
     @Override
     public void csoundObjCompleted(CsoundObj csoundObj) {
 
+    }
+
+    private void keepScreenOn(boolean yes){
+        if(yes)
+            getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        else
+            getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 }
