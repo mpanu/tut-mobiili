@@ -313,9 +313,157 @@ Tidoston käsittely on erotettu omaan FileUtils -luokkaan joka sisältää metodit k
 
 \chapter{Harjoitus 5 ja 6, Tietokantasovellus}
 
-Toteutettiin tietokantasovellus joka tallentaa, hakee ja poistaa värejä tietokannasta.
+https://github.com/mpanu/tut-mobiili/tree/master/Vastavari
+
+Tehtävänantona oli toteuttaa tietokantaa hyödyntävä sovellus. Toteutettu sovellus esittää slidereilla määritellyn värin, sen RGB-vastavärin sekä niiden hex-arvot (leikepöytä-tuella). Edellemainittujen sekä nappuloiden lisäksi on vielä kuvassa UI-elementti luku ''1/4'' joka kertoo että kantaan on tallennettu 4 väriä joista ensimmäinen on valittuna.
 
 \includegraphics[scale=0.175]{vastavari}
+
+Tietokantakäsittely kopioitiin melko suoraan kurssin AkuSovellus-esimerkistä sillä erotuksella että kantakyselyn tuloksia ei mäpätä suoraan olioiksi. Mielenkiintoinen huomio oli että Androidin developer-dokumentaatiot suosittelevat vahvasti Room-kirjaston käyttämistä SQLite-kommunikaatioon. En tosin lähtenyt tutustumaan Roomiin syvemmin kun kyse on niin yksinkertaisesta sovelluksesta. Tietokantakäsittely blokkaa UI:n ja tästä tehtävästä saisi luultavasti enemmän pisteitä jos sen olisi toteuttanut asynkronisesti esim. AsyncTask:in avulla.
+
+Alkuperäisenä ajatuksena oli toteuttaa yleinen vastavärien etsimiseen soveltuva appi mutta minulle selvisi että kattava ratkaisu tarjoaisi useita komplementtivärejä mm. HSV- ja CMY-väriavaruuksiin sekä kontrastiin ja valoisuuteen perustuen joten tämä sovellus on vain tynkä demo. Jatkokehitysideana tähän voisi integroida kameran niin voisi poimia värimaailmoja oikean maailman olioista. Väriryhmien tallentaminen nimellä erilliseen tauluun olisi myös hyvä ominaisuus.
+
+\section{MainActivity.java}
+Jokaiselle seekBarille asetetaan kuuntelija seuraavasti. SeekBarit on alustettu tarjoamaan kokonaislukuarvoja väliltä 0-255. 
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+seekBarRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        red = progress;
+        setColors();
+        clearCurrIdx();
+    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
+    public void onStopTrackingTouch(SeekBar seekBar) {}
+});
+\end{lstlisting}
+
+Värien asetus tapahtuu seuraavasti.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+private void setColors(){
+    int color = (0xff) << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
+    int complementaryColor = (0xff) << 24 | ((255-red) & 0xff) << 16 | ((255-green) & 0xff) << 8 | ((255-blue) & 0xff);
+    mainColorView.setBackgroundColor(color);
+    complementaryColorView.setBackgroundColor(complementaryColor);
+
+    mainHex.setText(String.format("#%06X", (0xFFFFFF & color)));
+    complementHex.setText(String.format("#%06X", (0xFFFFFF & complementaryColor)));
+
+    seekBarRed.setProgress(red);
+    seekBarGreen.setProgress(green);
+    seekBarBlue.setProgress(blue);
+}
+\end{lstlisting}
+
+Värin tallennus, tai indeksin päivitys jos väri on jo tallennettu.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+saveBtn = findViewById(R.id.savebtn);
+saveBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        int[] color = getMatchFromList();
+        if(color == null) {
+            datasource.open();
+            datasource.store(red, green, blue);
+            colorsList = datasource.findAll();
+            currentIdx = colorsList.size() - 1;
+        } else {
+            currentIdx = colorsList.indexOf(color);
+        }
+        colIdTxt.setText((currentIdx + 1) + "/" + colorsList.size());
+    }
+});
+\end{lstlisting}
+
+Haetaan värit kannasta, tai jos on jo haettu eikä välissä tallennettu, asetetaan näkyviin seuraava väri muistista.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+nextBtn = findViewById(R.id.nextbtn);
+nextBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        int testi = -1;
+        if(colorsList == null || currentIdx == -1){
+            datasource.open();
+            colorsList = datasource.findAll();
+            if(colorsList.size() >= 1) {
+                currentIdx = 0;
+                Log.d(TAG, "indeksi nollaan");
+            }
+        } else {
+            incrementIdx();
+        }
+        if(colorsList.size() == 0) return;
+        setcolorByRowId(colorsList.get(currentIdx)[3]);
+        colIdTxt.setText((currentIdx + 1) + "/" + colorsList.size());
+
+    }
+});
+\end{lstlisting}
+
+Valitun poisto kannasta columnId-kentän perusteella.
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+deleteBtn = findViewById(R.id.deletebtn);
+deleteBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+
+        if(currentIdx == -1) return;
+
+        datasource.open();
+        datasource.delete(colorsList.get(currentIdx)[3]);
+        colorsList = datasource.findAll();
+        if(colorsList.size() == 0){
+            clearCurrIdx();
+        } else {
+            setColor(colorsList.get(currentIdx));
+        }
+    }
+});
+\end{lstlisting}
+
+\section{ColorDataSource.java}
+
+\begin{lstlisting}[style=console, % title={Template files}
+] 
+public void store(int r, int g, int b){
+    ContentValues values = new ContentValues();
+    values.put(MySQLiteHelper.C_RED, r);
+    values.put(MySQLiteHelper.C_GREEN, g);
+    values.put(MySQLiteHelper.C_BLUE, b);
+    database.insert(MySQLiteHelper.T_COLOR, null, values);
+}
+
+public List<int[]> findAll(){
+    List<int[]> colors = new ArrayList<>();
+    Cursor cursor = database.query(MySQLiteHelper.T_COLOR,
+            new String[]{MySQLiteHelper.C_RED, 
+                         MySQLiteHelper.C_GREEN, 
+                         MySQLiteHelper.C_BLUE, 
+                         MySQLiteHelper.COLUMN_ID },
+            null, null, null, null, null);
+    while (cursor.moveToNext()) {
+        int[] intArr = new int[4];
+        intArr[0] = cursor.getInt(0);
+        intArr[1] = cursor.getInt(1);
+        intArr[2] = cursor.getInt(2);
+        intArr[3] = cursor.getInt(3);
+        colors.add(intArr);
+        cursor.moveToNext();
+    }
+    cursor.close();
+    return colors;
+}
+
+public void delete(int id){
+    database.delete(MySQLiteHelper.T_COLOR, 
+    				MySQLiteHelper.COLUMN_ID + " = " + id, 
+    				null);
+}
+\end{lstlisting}
 
 
 
