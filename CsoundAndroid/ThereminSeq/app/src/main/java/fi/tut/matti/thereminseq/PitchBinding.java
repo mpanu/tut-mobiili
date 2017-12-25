@@ -22,7 +22,7 @@ class PitchBinding implements CsoundBinding {
     @Override
     public void updateValuesFromCsound() {
         Csound csound = csoundObj.getCsound();
-        value = csound.GetChannel("value");
+        value = csound.GetChannel("pitch");
     }
 
     @Override

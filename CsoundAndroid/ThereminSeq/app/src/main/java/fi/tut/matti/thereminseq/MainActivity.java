@@ -1,11 +1,16 @@
 package fi.tut.matti.thereminseq;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -15,12 +20,17 @@ import com.csounds.bindings.motion.CsoundMotion;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends Activity implements
         CsoundObjListener {
@@ -29,8 +39,14 @@ public class MainActivity extends Activity implements
     private ToggleButton startStopButton = null;
     private Button playBtn;
     private Button saveBtn;
+    private EditText bpmTxt;
+    private Button loadBtn;
+    private Button saveSeqButton;
+
     private PitchBinding pitch = new PitchBinding();
+    private List<String> fileList = new ArrayList<>();
     private List<Double> seqList = new ArrayList<>();
+    private double bpm = 90;
 
 
     @Override
@@ -39,6 +55,24 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
         csoundObj.setMessageLoggingEnabled(true);
         csoundObj.addBinding(pitch);
+
+        bpmTxt = findViewById(R.id.bpmTxt);
+        loadBtn = findViewById(R.id.loadBtn);
+        loadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilenames();
+            }
+        });
+
+        saveSeqButton = findViewById(R.id.saveSeqBtn);
+        saveSeqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveFile();
+            }
+        });
+
 
         saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,18 +89,28 @@ public class MainActivity extends Activity implements
                 if(startStopButton.isChecked()){
                     startStopButton.setChecked(false);
                 }
+
+                try {
+                    bpm = Double.parseDouble(bpmTxt.getText().toString());
+                } catch (NumberFormatException e) {
+                    bpmTxt.setText(bpm + "");
+                }
+
                 String csd = getResourceFileAsString(R.raw.score_osc);
                 File f = createTempFile(csd);
                 csoundObj.startCsound(f);
 
                 String score = "";
-                double beatLength = 1;
+                double beatLength = 15.0 / (double)bpm; // 4 steps per beat
                 int i = 0;
-                for(double d : seqList){
+                for(double pitchD : seqList){
+                    String pitchStr = String.format(Locale.US,"%.2f", pitchD);
                     // instNbr startBeat durBeats ... instParams=pitch
-                    score += "i 1 " + i * beatLength + " .5 " + d + "\n";
+                    score += "i 1 " + i * beatLength + " " + (beatLength+0.1) + " " + pitchStr + "\n";
+                    i++;
                 }
                 csoundObj.sendScore(score);
+                Toast.makeText(MainActivity.this, score, Toast.LENGTH_LONG).show();
 
             }
         });
@@ -168,5 +212,80 @@ public class MainActivity extends Activity implements
             getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         else
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    private void saveFile(){
+        String file = "";
+        for (double d: seqList){
+            file += String.format(Locale.US,"%.2f", d) + "\n";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String FILENAME = sdf.format(new Date());
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.write(file.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e(TAG, "ounou");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "cräp");
+        }
+
+
+    }
+
+    private void showFilenames(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Load sequence");
+
+        File directory = new File(getApplicationInfo().dataDir + "/files");
+        File[] files = directory.listFiles();
+        fileList.clear();
+        for (int i = 0; i < files.length; i++)
+        {
+            fileList.add(files[i].getName());
+        }
+
+        String[] fileNameArr = fileList.toArray(new String[0]);
+        builder.setItems(fileNameArr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int idx) {
+                loadPitcSeqFromFile(fileList.get(idx));
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void loadPitcSeqFromFile(String filename){
+        List<String> pitcSeqList = new ArrayList<>();
+        try {
+            FileInputStream fIn = openFileInput(filename);
+            InputStreamReader isr = new InputStreamReader ( fIn ) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+            String readString = buffreader.readLine ( ) ;
+            while ( readString != null ) {
+                pitcSeqList.add(readString);
+                readString = buffreader.readLine ( ) ;
+            }
+
+            isr.close ( ) ;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        seqList.clear();
+        for(String s : pitcSeqList){
+            seqList.add(Double.parseDouble(s));
+        }
+
     }
 }
