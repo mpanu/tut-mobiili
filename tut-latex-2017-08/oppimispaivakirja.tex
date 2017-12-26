@@ -494,7 +494,32 @@ näkyviin.
 
 
 
-\chapter{Laaja harjoitustyö}
+\chapter{Laaja harjoitustyö, Theremin-sekvensseri}
+
+\includegraphics[scale=0.22]{there1}
+\includegraphics[scale=0.22]{there2}
+
+Tämän harjoitustyön alkuperäinen idea oli toteuttaa Theremin-tyylinen syntetisaattori jonka parametreja ohjataan puhelimen kiihtyvyysantureiden tietojen perusteella. Tavoiteeseen päästiin ja lisäominaisuutena toteutin yksinkertaisen sekvensserin joka tukee tiedostoon tallennusta.
+
+Kun sovelluksen vasemman ylälaidan toggle-napin enabloi, alkaa puhelin toistamaan ääniaaltoa jonka korkeus määräytyy puhelimen X- ja Y-akseleihin kohdistuvien kiihtyvyyksien summan perusteella. Äänenkorkeuden määrää siis käytännössä maan painovoiman suunta, mutta mukana on myös puhelimen liikuttamisesta aiheutuvat kiihtyvyydet jotka tuovat soittotuntumaan mukavan lisän. Akselit valikoituivat kokeilun kautta, X- ja Y-akseleita käytettäessä muodostuu ''soittamiseen'' luonnollinen liikerata ja resoluutio on parempi kuin vain yhtä akselia käytettäessä.
+
+UI:n vapaan alueen täyttää iso ''SAVE NOTE'' -nappi joka lisää senhetkisen, syntetisaattorilta kysytyn, äänenkorkeuden hertseinä List<Double> -tyyppiseen tietorakenteeseen. ''SAVE SEQUENCE''-nappi tallentaa listan arvot tiedostoon. ''LOAD SEQUENCE'' -avaa AlertDialog-tyyppisen näkymän joka mahdollistaa tallennetun tiedoston lataamisen. Tiedostonnimenä on käytetty päivämäärää ja aikaa sekunnin tarkkuudella. ''PLAY SEQUENCE''-nappi soittaa muistissa olevan sekvenssin käyttäjän ''BPM''-EditText -kentän määräämällä nopeudella.
+
+\section{Csound}
+
+Tämä hajoitustyö käyttää äänen tuottamiseen Csound-kirjastoa. Csound on Barry Vercoen MIT Media Labissä vuonna 1985 kehittämä ohjelmointiympäristö \cite{csounds01}. Sitä kehitetään aktiivisesti avoimen lähdekoodin periaattella ja se on lisensoitu GNU Lesser General Public License (LGPL) -lisenssillä joka mahdollistaa sen linkittämisen myös kaupalliseen suljetun lähdekoodin sovellukseen. Csound on käännetty useimmille ympäristöille ja siitä löytyy versio myös ARM-pohjaiselle Arndroidille. Android-käännös tarjoaa Androidin Native Development Kit (NDK) -rajapinnalla toteututetut ''koukut'' yleisimpiin Csoundin ominaisuuksiin. 
+
+Csound on kokoelma C/C++ -kielillä toteutettuja syntetisaattorimoduuleja sekä ympäristö joka mahdollistaa moduuleiden kytkemisen toisiinsa sekä niiden parametrien manipuloinnin aikajanalla. Csound ''ohjelmat'' ovat csd-päätteisiä tekstitiedostoja joka koostuvat instrumentti- ja score-määrittelyistä. Asia on ehkä helpoin mieltää siten että instumentti määrää mikä ääni on valittuna ja score määrää mitä koskettimia soittaja soittaa. Perinteinen käyttötapaus Csoundilla on ollut että muusikko ohjelmoi kappaleen csd-tiedostoon ja ''kääntää'' tai renderöi sen scound-kääntäjällä wav-tiedostoksi. Nykykoneet pystyvät kyllä toistamaan isojakin orkesteja reaaliajassa ja uskon että nykyään yleisin käyttötapaus ennen lopullista renderöintiä on ohjata Csoundin ''käännös'' suoraan äänikortille tai esim. raituriohjelmalle ja manipuloida parametreja ''lennossa''. 
+
+\section{Csoundin käyttö harjoitustyössä}
+
+Tämä sovellus käyttää kahta eri csd-tidostoa. Csound käynnistetään ''accel\_osc.csd'' -tidostolla kun vasemman yläkulman toggle asetetaan on-tilaan. ''accel\_osc.csd'' -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja eikä sammu heti. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
+
+Toinen Csound-ohjelma ''score\_osc.csd'' jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin scoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse miettiä ajoituksia.
+
+
+
+
 CsoundAccelerometerBindingjava hakee kiihtyvyysanturit. TYPE\_ACCELEROMETER -tyypin sensoireiden arvoissa on mukana sekä painovaoima että voima, x-, y- ja z-akseleiden suhteen. 
 \begin{lstlisting}[style=console, % title={Template files}
 ]
