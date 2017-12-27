@@ -139,11 +139,8 @@
 % You don't have to align these with whitespaces, but it makes the
 % .tex file more readable
 \begin{termlist}
-\item [CC license] Creative Commons license
-\item [LaTeX] 	   Typesetting system for scientific documentation
-\item [SI system]  Syst\`eme international d'unités, International System of Units
-\item [TUT] 	   Tampere University of Technology
-\item [URL]        Uniform Resource Locator
+\item [LGPL]       GNU Lesser General Public License
+\item [NDK]        Native Development Kit
 \end{termlist} 
 
 % The actual text begins here and page numbering changes to 1,2...
@@ -161,7 +158,7 @@
                               % mode)
 
 
-\chapter{Aikataulu}
+\chapter{Aikataulu ja johdanto}
 \label{ch:intro} 
 % \label{...} allows cross-referencing, e.g. 'as explained in
 % Chapter~\ref{ch:intro}' Note that you may have to run the command
@@ -186,26 +183,35 @@
 			20. -30.10.2017 & 10h & Android Studion asennus Linux-koneeseen. Hello World 
 			pyörimään emulaattoriin ja omaan Huawei Honor 8 -laitteeseen.\\
 			31.10.2017 & 8h & Opintopäiväkirjan aloitus. Latexiin tutustumista. Git-repon perustus\\
-			1.-20.11.2017 & 50h & Developing Android Apps -MOOC -kurssi\\
-			25.-27.11.2017 & 16h & Harjoitus 4, Laskukone\\
+			10.10.-26.11.2017 & 50h & Developing Android Apps -MOOC -kurssi\\
+			20.-25.11.2017 & 16h & Harjoitus 4, Laskukone\\
+			25.-26.11.2017 & 10h & Harjoitus 5 ja 6, Tietokanta\\
+			26.11.-27.12.2017 & 30h & Laaja harjoitustyö\\
+			27.-29.12.2017 & 5h & Opintopäiväkirjan puhtaaksikirjoitus\\
 			\hline
 		\end{tabular}
 \end{table}
 
+Aloitin kurssin asentamalla kehitysympäristöt ja seuraamalla MOOC-kurssia. Minulla ei ole aiempaa Android-ohjelmointi kokemusta joten käytin MOOC-kurssia pääsääntöisenä tiedon lähteenäni. Valitettavasti MOOC-kurssin aikaiset muistiinpanot jäivät varsin rajallisiksi ja se heijastuu myös tämän opintopäiväkirjan MOOC-harjoitusta käsittelevässä osiossa.
+
+Ajanpuutteen vuoksi jätin Firebase- ja Kartta-harjoitukset tekemättä. Osin tähän on syynä myös se että tehtävät vaikuttivat varsin triviaaleilta ja uskon että se että keskitin aikani Androidin perusteiden opettelun jälkeen laajaan harjoitustyöhön, palveli paremmin itselleni asettamia oppimistavoitteita.
+
+Olen toteuttanut työssäni viimeiset vajaa 3 vuotta kosketuskäyttöä tukevia sovelluksia JavaFX-ympäristössä. JavaFX:n XML-pohjainen UI-kehitys on lähellä Androidin vastaavaa ja UI-rakentaminen olikin minulle helppoa. Koska UI:n ''layout''-koodaus on minusta niin suoraviivaista, en ole tässä dokumentissa kuvannut UI-elementtien asemointia XML:llä lainkaan.
 
 
+\chapter{Harjoitus 1, Laitteen kuvaus}
 
-\chapter{Harjoitukset1}
+Valitsin kurssin kohdelaitteeksi henkilökohtaisen päivittäisessä käytössäni olevan Huawei Honor 8 -puhelimen. Siinä on Android 7 -käyttöjärjestelmä. Tarkemmat tiedot löytyvät mm. GSM-Arena sivustolta \cite{gsmarena01}. Honor 8 tukee yleisimpiä älypuhelinten ominaisuuksia kuten paikannus, kamera ja kiihtyvyysanturi.
 
-\section{Harjoitus1}
+Android-laitteiden sovelluksia kehitetään tyypillisesti JetBrainsin InteliJ Ideaan pohjautuvan Android Studio IDE:n avulla. Kehitys onnistuu Windows-, Mac- ja Linux-ympäristössä. Itse asensin kehitysympäristön Arch-Linux:iin pohjautuvaan AntegrOS-Linux-jakeluun. Android Studio osaa asentaa Android Developer Tools-, Android SDK- ja Android emulaattorit sisäisesti. Itse asensin ne erikseen jolloin mm. Android Debug Bridgen ja emulaattorin käyttö onnistuu tarvittaessa helposti myös ilman Android Studioa.
 
-Huawei Honor 8 -puhelin, Android 7 -käyttöjärjestelmä. Tarkemmat tiedot löytyvät mm. 
-GSM-Arena sivustolta \cite{gsmarena01}.
-Android-laitteiden sovelluksia kehitetään tyypillisesti JetBrainsin InteliJ Ideaan Android Studio IDE:n avulla.
+Android-sovelluksia kehitetään Googlen implementaatiolla Java-standardista. Vaativammat sovellukset, kuten pelit, hyödyntävät usein natiivikoodia (C,C++) Androidin Native Development Kitin (NDK) kautta käynnistettynä. Android-sovellus voidaan toteuttaa myös web-teknologioilla ja se voidaan paketoida itsenäiseksi ajettavaksi sovellukseksi. Tällöin pystytään hyödyntämään samaa koodia useilla laitealustoilla mutta usein performanssin ja ulkonäön (native look and feel) kustannuksella.
 
-\section{Harjoitus 2}
+\chapter{Harjoitus 2, Git}
 
-Git-repo perustettu
+Git on minulle hyvin tuttu työstäni jo n. kymmenen vuoden ajalta.
+
+Julkinen git-repo perustettu GitHubiin.
 https://github.com/mpanu/tut-mobiili
 
 \chapter{Harjoitus 4, Peruskäyttöliittymä}
@@ -496,31 +502,33 @@ näkyviin.
 
 \chapter{Laaja harjoitustyö, Theremin-sekvensseri}
 
+https://github.com/mpanu/tut-mobiili/tree/master/CsoundAndroid/ThereminSeq
+
 \includegraphics[scale=0.22]{there1}
 \includegraphics[scale=0.22]{there2}
 
-Tämän harjoitustyön alkuperäinen idea oli toteuttaa Theremin-tyylinen syntetisaattori jonka parametreja ohjataan puhelimen kiihtyvyysantureiden tietojen perusteella. Tavoiteeseen päästiin ja lisäominaisuutena toteutin yksinkertaisen sekvensserin joka tukee tiedostoon tallennusta.
+Tämän harjoitustyön alkuperäinen idea oli toteuttaa Theremin-tyylinen syntetisaattori jonka parametreja ohjataan puhelimen kiihtyvyysantureiden tietojen perusteella. Tavoiteeseen päästiin ja lisäominaisuutena toteutin yksinkertaisen sekvensserin joka tukee tiedostoon tallennusta. Minun Honor 8 -laitteella soittamisessa on arviolta yli 20ms viive joka on liikaa hyvän soittotuntuman saavuttamiseen. Ilmeisesti joillain Sonyn ja Googlen laitteilla olisi mahdollista saavuttaa iOS-tason audiolatenssi koska ne ilmoittavat tukevansa Androidin FEATURE\_AUDIO\_PRO  -määritystä \cite{juce01}.
 
-Kun sovelluksen vasemman ylälaidan toggle-napin enabloi, alkaa puhelin toistamaan ääniaaltoa jonka korkeus määräytyy puhelimen X- ja Y-akseleihin kohdistuvien kiihtyvyyksien summan perusteella. Äänenkorkeuden määrää siis käytännössä maan painovoiman suunta, mutta mukana on myös puhelimen liikuttamisesta aiheutuvat kiihtyvyydet jotka tuovat soittotuntumaan mukavan lisän. Akselit valikoituivat kokeilun kautta, X- ja Y-akseleita käytettäessä muodostuu ''soittamiseen'' luonnollinen liikerata ja resoluutio on parempi kuin vain yhtä akselia käytettäessä.
+\section{Käyttöliittymä}
 
-UI:n vapaan alueen täyttää iso ''SAVE NOTE'' -nappi joka lisää senhetkisen, syntetisaattorilta kysytyn, äänenkorkeuden hertseinä List<Double> -tyyppiseen tietorakenteeseen. ''SAVE SEQUENCE''-nappi tallentaa listan arvot tiedostoon. ''LOAD SEQUENCE'' -avaa AlertDialog-tyyppisen näkymän joka mahdollistaa tallennetun tiedoston lataamisen. Tiedostonnimenä on käytetty päivämäärää ja aikaa sekunnin tarkkuudella. ''PLAY SEQUENCE''-nappi soittaa muistissa olevan sekvenssin käyttäjän ''BPM''-EditText -kentän määräämällä nopeudella.
+Kun sovelluksen vasemman ylälaidan toggle-napin enabloi, alkaa puhelin toistamaan ääniaaltoa jonka korkeus määräytyy puhelimen X- ja Y-akseleihin kohdistuvien kiihtyvyyksien summan perusteella. Äänenkorkeuden määrää siis käytännössä maan painovoiman suunta, mutta mukana on myös puhelimen liikuttamisesta aiheutuvat kiihtyvyydet jotka toisaalta tuovat soittotuntumaan mukavan lisän. Akselit valikoituivat kokeilun kautta, X- ja Y-akseleita käytettäessä muodostuu ''soittamiseen'' luonnollinen liikerata. 
+
+UI:n vapaan alueen täyttää iso ''SAVE NOTE'' -nappi joka lisää senhetkisen, syntetisaattorilta kysytyn, äänenkorkeuden hertseinä List<Double> -tyyppiseen tietorakenteeseen. ''SAVE SEQUENCE''-nappi tallentaa listan arvot tiedostoon. ''LOAD SEQUENCE'' -avaa AlertDialog-tyyppisen näkymän joka mahdollistaa tallennetun tiedoston lataamisen. Tiedostonnimenä on käytetty päivämäärää ja aikaa sekunnin tarkkuudella. ''PLAY SEQUENCE''-nappi soittaa muistissa olevan sekvenssin käyttäjän ''BPM''-EditText -kentän määräämällä nopeudella (Beats Per Minute).
 
 \section{Csound}
 
-Tämä hajoitustyö käyttää äänen tuottamiseen Csound-kirjastoa. Csound on Barry Vercoen MIT Media Labissä vuonna 1985 kehittämä ohjelmointiympäristö \cite{csounds01}. Sitä kehitetään aktiivisesti avoimen lähdekoodin periaattella ja se on lisensoitu GNU Lesser General Public License (LGPL) -lisenssillä joka mahdollistaa sen linkittämisen myös kaupalliseen suljetun lähdekoodin sovellukseen. Csound on käännetty useimmille ympäristöille ja siitä löytyy versio myös ARM-pohjaiselle Arndroidille. Android-käännös tarjoaa Androidin Native Development Kit (NDK) -rajapinnalla toteututetut ''koukut'' yleisimpiin Csoundin ominaisuuksiin. 
+Tämä hajoitustyö käyttää äänen tuottamiseen Csound-kirjastoa. Csound on Barry Vercoen MIT Media Labissä vuonna 1985 kehittämä musiikin ja äänen käsittelyyn keskittyvä ohjelmointiympäristö \cite{csounds01}. Sitä kehitetään aktiivisesti avoimen lähdekoodin periaattella ja se on lisensoitu GNU Lesser General Public License (LGPL) -lisenssillä joka mahdollistaa sen linkittämisen myös kaupalliseen suljetun lähdekoodin sovellukseen. Csound on käännetty useimmille laitealustoille ja siitä löytyy valmiiksi käännetty versio myös ARM-pohjaiselle Arndroidille. Android-käännös tarjoaa valmiina myös Androidin Native Development Kit (NDK) -rajapinnalla toteututetut ''koukut'' yleisimpiin Csoundin ominaisuuksiin. 
 
 Csound on kokoelma C/C++ -kielillä toteutettuja syntetisaattorimoduuleja sekä ympäristö joka mahdollistaa moduuleiden kytkemisen toisiinsa sekä niiden parametrien manipuloinnin aikajanalla. Csound ''ohjelmat'' ovat csd-päätteisiä tekstitiedostoja joka koostuvat instrumentti- ja score-määrittelyistä. Asia on ehkä helpoin mieltää siten että instumentti määrää mikä ääni on valittuna ja score määrää mitä koskettimia soittaja soittaa. Perinteinen käyttötapaus Csoundilla on ollut että muusikko ohjelmoi kappaleen csd-tiedostoon ja ''kääntää'' tai renderöi sen scound-kääntäjällä wav-tiedostoksi. Nykykoneet pystyvät kyllä toistamaan isojakin orkesteja reaaliajassa ja uskon että nykyään yleisin käyttötapaus ennen lopullista renderöintiä on ohjata Csoundin ''käännös'' suoraan äänikortille tai esim. raituriohjelmalle ja manipuloida parametreja ''lennossa''. 
 
 \section{Csoundin käyttö harjoitustyössä}
 
-Tämä sovellus käyttää kahta eri csd-tidostoa. Csound käynnistetään ''accel\_osc.csd'' -tidostolla kun vasemman yläkulman toggle asetetaan on-tilaan. ''accel\_osc.csd'' -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja eikä sammu heti. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
+Tämä sovellus käyttää kahta eri csd-tiedostoa, tai Csound-ohjelmaa. Csound käynnistetään ajamaan ''accel\_osc.csd'' -tiedoston määritelemää ohjelmaa kun vasemman yläkulman toggle asetetaan on-tilaan. ''accel\_osc.csd'' -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
 
-Toinen Csound-ohjelma ''score\_osc.csd'' jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin scoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse miettiä ajoituksia.
+Toinen Csound-ohjelma ''score\_osc.csd'' jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin Csoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse miettiä ajoituksia.
 
+Csound-Andoid-kirjasto tarjoaa CsoundAccelerometerBinding -oletustoteutuksen kiihtyvyysanturien hyödyntämiseen. Se hyödyntää Androidin TYPE\_ACCELEROMETER-rajapinnan kautta saatavia tietoja. Vastaava toteutus olisi helposti tehtävissä myös TYPE\_GRAVITY-rajapinnan anturitiedoille joissa on mukana ainoastaan painovoima eikä muita kiihtyvyyksiä ja joka siten sopipisi mahdollisesti paremmin tarkkaan melodiseen soittamiseen.
 
-
-
-CsoundAccelerometerBindingjava hakee kiihtyvyysanturit. TYPE\_ACCELEROMETER -tyypin sensoireiden arvoissa on mukana sekä painovaoima että voima, x-, y- ja z-akseleiden suhteen. 
 \begin{lstlisting}[style=console, % title={Template files}
 ]
 sensorManager = (SensorManager) context.
@@ -536,6 +544,95 @@ CsoundAccelerometerBinding-luokka implementoi Androidin SensorEventListener -raj
 sensorManager.registerListener(this, sensor, 
     SensorManager.SENSOR_DELAY_FASTEST);
 \end{lstlisting}
+
+\section{MainActivity.java}
+
+Soitto-toiminta käynnistyy vasemman yläkulman toggle-buttonilla. Resursseista luetaan accel\_osc.csd -tiedosto ja se tallennetaan cache-hakemistoon jotta Csound pystyy lukemaan sen. CsoundMotion on wrapper-luokka yllämainitulle CsoundAccelerometerBinding -luokalle joka välittää kiihtyvyysanturin tiedot Csoundille. Se myös pitää näytön päällä soiton ajan jotta nuottien tallennus soiton yhteydessä on mahdollista.
+
+\begin{lstlisting}[style=console, % title={Template files}
+]
+startStopButton = findViewById(R.id.mute);
+startStopButton.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+    public void onCheckedChanged(CompoundButton buttonView,
+                                 boolean isChecked) {
+        if (isChecked) {
+            String csd = getResourceFileAsString(R.raw.accel_osc);
+            File f = createTempFile(csd);
+            CsoundMotion csoundMotion = new CsoundMotion(csoundObj);
+            csoundMotion.enableAccelerometer(MainActivity.this);
+            csoundObj.startCsound(f);
+            keepScreenOn(true);
+        } else {
+            csoundObj.stop();
+            keepScreenOn(false);
+        }
+    }
+});
+\end{lstlisting}
+
+Play-nappi sammuttaa soittotilan kytkemällä ON-OFF-nappulan offille ja käynnistää uuden Csound-instanssin score\_osc.csd-tiedostolla. Score generoidaan BPM-arvon ja listaan tallennettujen äänenkorkeuksien perusteella ja lähetetään Csoundille soitettavaksi sendScore-metodin avulla. Generoitu score esitetään käyttäjälle Toast-dialogin avulla.
+
+\begin{lstlisting}[style=console, % title={Template files}
+]
+playBtn = findViewById(R.id.playBtn);
+playBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        if(startStopButton.isChecked()){
+            startStopButton.setChecked(false);
+        }
+
+        try {
+            bpm = Double.parseDouble(bpmTxt.getText().toString());
+        } catch (NumberFormatException e) {
+            bpmTxt.setText(bpm + "");
+        }
+
+        String csd = getResourceFileAsString(R.raw.score_osc);
+        File f = createTempFile(csd);
+        csoundObj.startCsound(f);
+
+        String score = "";
+        double beatLength = 15.0 / (double)bpm; // 4 steps per beat
+        int i = 0;
+        for(double pitchD : seqList){
+            String pitchStr = String.format(Locale.US,"%.2f", pitchD);
+            // instNbr startBeat durBeats ... instParams=pitch
+            score += "i 1 " + i * beatLength + " " 
+                     + (beatLength+0.1) + " " + pitchStr + "\n";
+            i++;
+        }
+        csoundObj.sendScore(score);
+        Toast.makeText(MainActivity.this, score, Toast.LENGTH_LONG).show();
+
+    }
+});
+\end{lstlisting}
+
+Aktiivisen nuotin tallennukseen käytetty ''SAVE NOTE'' -nappi lukee PitchBinding -luokasta double-tyyppisen arvon. Kyseinen luokka toteuttaa CsoundBinding -rajapinnan ja se on kytketty Csoundiin CsoundObj-luokan addBinding-metodin avulla. PitchBinding on itse toteutettu luokka josta löytyy seuraava metodi jota Csound kutsuu säännöllisesti. Csoundilta pyydetään ''pitch''-niminen arvo joka tallennetaan julkiseen ''value''-nimiseen double-kenttään.
+
+\begin{lstlisting}[style=console, % title={Template files}
+]
+public void updateValuesFromCsound() {
+    Csound csound = csoundObj.getCsound();
+    value = csound.GetChannel("pitch");
+}
+\end{lstlisting}
+
+Vastaavasti accel\_osc.csd tiedostosta löytyy seuraava rivi joka kertoo että äänenkorkeutta ohjaavan kpch-muuttujan arvoa tarjoillaan ''software bus''-väylään ''pitch'' nimellä.
+\begin{lstlisting}[style=console, % title={Template files}
+]
+chnset kpch, "pitch"
+\end{lstlisting}
+
+\section{Johtopäätökset}
+
+Csound on varsin varteenotettava vaihtoehto Android-musiikkisovellusten toteuttamiseen. Kehittäjälle joka tuntee analogisynteesin yleisimmät rakennuspalikat on Csoundin hyödyntäminen, Csoundin vanhahkon tyylisestä syntaksista ja muusta historian painolastista huolimatta, kohtuullisen vaivatonta. Itse kulutin paljon aikaa siihen että käänsin Csound-Androidin itse ARM-arkkitehtuurille ja vasta jälkeenpäin huomasin että ladattavana olisi ollut myös valmis käännös. Csound-Android-projektin importtaaminen omaan Andoid-projektiin onnistui vaivattomasti ja esimerkkisovelluksia tutkimalla sai äänen soimaan omassa laitteessa varsin vaivattomasti. Koska Csound-Android oli käännetty ARM-arkkitehtuurille ei x86-emulaattoria voinut käyttää testaamiseen. Tämä lisäsi tiettyä vaivalloisuutta kehitystyöhön. Jos Csound-Androidilla tekisi vakavaa kehitystä olisi syytä harkita sen kääntämistä x86-arkkitehtuurille jotta se toimisi myös emulaattorissa.
+
+Alkuoletukseni oli että Androidilla ei pysty toteuttamaan vakavasti otettavia musiikkisovelluksia koska Andoid-laitteet eivät tue lyhyitä audiolatensseja. Projekti antoi oletukselle vahvistusta, mutta projektin aikana löysin myös viitteitä siitä että on olemassa Android-laitteita jotka mahdollisesti kykenevät ammattitason audioon. Silti, verrattuna iOS-ekosysteemin, pro-audio Androidilla on merkityksetön markkina joka ei ole kehittäjälle houkutteleva. Android-ekosysteemi on audiokehityksen kannalta ongelmallinen myös siksi että oletuskieli Java ei virtuaalisen luonteensa vuoksi sovellu reaaliaikasovelluksiin. Oletan että Android-pelitkin kehitetään pääsääntöisesti jollain natiivikielellä kuten C++. Tässä harjoitustyössä kiihtyvyysanturin tieto reititetaan javan kautta Csoundille. Teknisesti olisi mahdollista välittää anturitiedot suoraan natiivirajapinnan kautta ja ohittaa Java. Tämä tuskin onnistuisi ilman C/C++-koodausta mutta olisi mielenkiintoista tietää onko sillä merkitystä latenssiin.
+
+
 
 This document template conforms to Guide to Writing a Thesis Tampere
 University of technology (TUT) \cite{thesisguide13}. A thesis or a
