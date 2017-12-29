@@ -10,12 +10,12 @@ sr = 48000
 
 instr 1
 
+;oscillator
 a1 vco2 .5, p4
-
+;reverb
 aL, aR reverbsc a1, a1, .72, 5000
-
+;output
 out aL, aR
-
 
 endin
 
@@ -27,20 +27,3 @@ i1 0 360000
 
 </CsScore>
 </CsoundSynthesizer>
-<bsbPanel>
- <label>Widgets</label>
- <objectName/>
- <x>100</x>
- <y>100</y>
- <width>320</width>
- <height>240</height>
- <visible>true</visible>
- <uuid/>
- <bgcolor mode="nobackground">
-  <r>255</r>
-  <g>255</g>
-  <b>255</b>
- </bgcolor>
-</bsbPanel>
-<bsbPresets>
-</bsbPresets>

@@ -9,25 +9,29 @@ ksmps=32
 sr = 48000
 
 instr 1
-
+;x,y,z from accelerometer
 kaccelX chnget "accelerometerX" 
 kaccelY chnget "accelerometerY" 
 kaccelZ chnget "accelerometerZ" 
 
+;portamento
 kaccelX port kaccelX, 0.001
 kaccelY port kaccelY, 0.001
 kaccelZ port kaccelZ, 0.001
 
+;sum x,y and multiply
 kpch = 80 + (kaccelX + kaccelY + 20) * 40
 
+;pitch to software bus
 chnset kpch, "pitch"
 
+;oscillator
 a1 vco2 .5, kpch
 
+;reverb
 aL, aR reverbsc a1, a1, .72, 5000
 
 out aL, aR
-
 
 endin
 
@@ -39,20 +43,3 @@ i1 0 360000
  
 </CsScore>
 </CsoundSynthesizer>
-<bsbPanel>
- <label>Widgets</label>
- <objectName/>
- <x>100</x>
- <y>100</y>
- <width>320</width>
- <height>240</height>
- <visible>true</visible>
- <uuid/>
- <bgcolor mode="nobackground">
-  <r>255</r>
-  <g>255</g>
-  <b>255</b>
- </bgcolor>
-</bsbPanel>
-<bsbPresets>
-</bsbPresets>
