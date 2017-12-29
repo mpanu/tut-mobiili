@@ -179,14 +179,14 @@
  			&&\textbf{Kuvaus}\\
 			\hline
 			\hline
-			10. - 20.10.2017 & 8h & Andoid-ohjelmointiin ja kurssin materiaaleihin tutustumista\\
+			10. - 20.10.2017 & 10h & Andoid-ohjelmointiin ja kurssin materiaaleihin tutustumista\\
+			10.10.-26.11.2017 & 30h & Developing Android Apps -MOOC -kurssi\\
 			20. -30.10.2017 & 10h & Android Studion asennus Linux-koneeseen. Hello World 
 			pyörimään emulaattoriin ja omaan Huawei Honor 8 -laitteeseen.\\
-			31.10.2017 & 8h & Opintopäiväkirjan aloitus. Latexiin tutustumista. Git-repon perustus\\
-			10.10.-26.11.2017 & 50h & Developing Android Apps -MOOC -kurssi\\
-			20.-25.11.2017 & 16h & Harjoitus 4, Laskukone\\
+			31.10.2017 & 10h & Opintopäiväkirjan aloitus. Latexiin tutustumista. Git-repon perustus\\
+			20.-25.11.2017 & 10h & Harjoitus 4, Laskukone\\
 			25.-26.11.2017 & 10h & Harjoitus 5 ja 6, Tietokanta\\
-			26.11.-27.12.2017 & 30h & Laaja harjoitustyö\\
+			26.11.-27.12.2017 & 50h & Laaja harjoitustyö\\
 			27.-29.12.2017 & 5h & Opintopäiväkirjan puhtaaksikirjoitus\\
 			\hline
 		\end{tabular}
@@ -203,7 +203,7 @@ Olen toteuttanut työssäni viimeiset vajaa 3 vuotta kosketuskäyttöä tukevia sovel
 
 Valitsin kurssin kohdelaitteeksi henkilökohtaisen päivittäisessä käytössäni olevan Huawei Honor 8 -puhelimen. Siinä on Android 7 -käyttöjärjestelmä. Tarkemmat tiedot löytyvät mm. GSM-Arena sivustolta \cite{gsmarena01}. Honor 8 tukee yleisimpiä älypuhelinten ominaisuuksia kuten paikannus, kamera ja kiihtyvyysanturi.
 
-Android-laitteiden sovelluksia kehitetään tyypillisesti JetBrainsin InteliJ Ideaan pohjautuvan Android Studio IDE:n avulla. Kehitys onnistuu Windows-, Mac- ja Linux-ympäristössä. Itse asensin kehitysympäristön Arch-Linux:iin pohjautuvaan AntegrOS-Linux-jakeluun. Android Studio osaa asentaa Android Developer Tools-, Android SDK- ja Android emulaattorit sisäisesti. Itse asensin ne erikseen jolloin mm. Android Debug Bridgen ja emulaattorin käyttö onnistuu tarvittaessa helposti myös ilman Android Studioa.
+Android-laitteiden sovelluksia kehitetään tyypillisesti JetBrainsin InteliJ Ideaan pohjautuvan Android Studio IDE:n avulla. Kehitys onnistuu Windows-, Mac- ja Linux-ympäristössä. Itse asensin kehitysympäristön Arch-Linux:iin pohjautuvaan Antergos -Linux-jakeluun. Android Studio osaa asentaa Android Developer Tools-, Android SDK- ja Android emulaattorit sisäisesti. Itse asensin ne erikseen jolloin mm. Android Debug Bridgen ja emulaattorin käyttö onnistuu tarvittaessa helposti myös ilman Android Studioa.
 
 Android-sovelluksia kehitetään Googlen implementaatiolla Java-standardista. Vaativammat sovellukset, kuten pelit, hyödyntävät usein natiivikoodia (C,C++) Androidin Native Development Kitin (NDK) kautta käynnistettynä. Android-sovellus voidaan toteuttaa myös web-teknologioilla ja se voidaan paketoida itsenäiseksi ajettavaksi sovellukseksi. Tällöin pystytään hyödyntämään samaa koodia useilla laitealustoilla mutta usein performanssin ja ulkonäön (native look and feel) kustannuksella.
 
@@ -214,7 +214,6 @@ Git on minulle hyvin tuttu työstäni jo n. kymmenen vuoden ajalta.
 https://github.com/mpanu/tut-mobiili
 
 \chapter{Harjoitus 4, Peruskäyttöliittymä}
-https://github.com/mpanu/tut-mobiili.git
 
 https://github.com/mpanu/tut-mobiili/tree/master/Laskukone
 
@@ -320,7 +319,7 @@ Tidoston käsittely on erotettu omaan FileUtils -luokkaan joka sisältää metodit k
 
 https://github.com/mpanu/tut-mobiili/tree/master/Vastavari
 
-Tehtävänantona oli toteuttaa tietokantaa hyödyntävä sovellus. Toteutettu sovellus mahdollistaa väritietojen tallennuksen SQLite kantaan sekä tallennettujen värien selaamisen ja poistamisen. Sovellus esittää slidereilla määritellyn värin, sen RGB-vastavärin sekä niiden hex-arvot (leikepöytä-tuella). Edellemainittujen sekä nappuloiden lisäksi on vielä kuvassa UI-elementti luku ''1/4'' joka kertoo että kantaan on tallennettu 4 väriä joista ensimmäinen on valittuna.
+Tehtävänantona oli toteuttaa tietokantaa hyödyntävä sovellus. Toteutettu sovellus mahdollistaa väritietojen tallennuksen SQLite -kantaan sekä tallennettujen värien selaamisen ja poistamisen. Sovellus esittää slidereilla määritellyn värin, sen RGB-vastavärin sekä niiden hex-arvot (leikepöytä-tuella). Edellemainittujen sekä nappuloiden lisäksi on vielä kuvassa UI-elementti luku ''1/4'' joka kertoo että kantaan on tallennettu 4 väriä joista ensimmäinen on valittuna.
 
 \includegraphics[scale=0.175]{vastavari}
 
@@ -506,12 +505,12 @@ näkyviin.
 \chapter{Laaja harjoitustyö, Theremin-sekvensseri}
 
 https://github.com/mpanu/tut-mobiili/tree/master/ThereminSeq\newline
-../app/src/main/AndroidManifest.xml\newline
-../app/src/main/res/layout/activity\_main.xml\newline
-../app/src/main/java/fi/tut/matti/thereminseq/MainActivity.java\newline
-../app/src/main/java/fi/tut/matti/thereminseq/PitchBinding.java\newline
-../app/src/main/res/raw/accel\_osc.csd\newline
-../app/src/main/res/raw/score\_osc.csd\newline
+./app/src/main/AndroidManifest.xml\newline
+./app/src/main/res/layout/activity\_main.xml\newline
+./app/src/main/java/fi/tut/matti/thereminseq/MainActivity.java\newline
+./app/src/main/java/fi/tut/matti/thereminseq/PitchBinding.java\newline
+./app/src/main/res/raw/accel\_osc.csd\newline
+./app/src/main/res/raw/score\_osc.csd\newline
 
 
 
@@ -534,7 +533,7 @@ Csound on kokoelma C/C++ -kielillä toteutettuja syntetisaattorimoduuleja sekä ym
 
 \section{Csoundin käyttö harjoitustyössä}
 
-Tämä sovellus hyödyntää kahta eri csd-tiedostoa (Csound-ohjelmaa). Csound käynnistetään ajamaan accel\_osc.csd -tiedoston määritelemää ohjelmaa kun vasemman yläkulman toggle asetetaan on-tilaan. accel\_osc.csd -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
+Tämä sovellus hyödyntää kahta eri csd-tiedostoa (Csound-ohjelmaa). Csound käynnistetään ajamaan accel\_osc.csd -tiedoston määritelemää ohjelmaa kun vasemman yläkulman toggle asetetaan on-tilaan. Tiedostossa accel\_osc.csd on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
 
 Toinen Csound-ohjelma score\_osc.csd jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin Csoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse toteuttaa nuottien ajoituksia.
 
