@@ -505,7 +505,15 @@ näkyviin.
 
 \chapter{Laaja harjoitustyö, Theremin-sekvensseri}
 
-https://github.com/mpanu/tut-mobiili/tree/master/CsoundAndroid/ThereminSeq
+https://github.com/mpanu/tut-mobiili/tree/master/ThereminSeq\newline
+../app/src/main/AndroidManifest.xml\newline
+../app/src/main/res/layout/activity\_main.xml\newline
+../app/src/main/java/fi/tut/matti/thereminseq/MainActivity.java\newline
+../app/src/main/java/fi/tut/matti/thereminseq/PitchBinding.java\newline
+../app/src/main/res/raw/accel\_osc.csd\newline
+../app/src/main/res/raw/score\_osc.csd\newline
+
+
 
 \includegraphics[scale=0.22]{there1}
 \includegraphics[scale=0.22]{there2}
@@ -520,17 +528,19 @@ UI:n vapaan alueen täyttää iso ''SAVE NOTE'' -nappi joka lisää senhetkisen, synt
 
 \section{Csound}
 
-Tämä hajoitustyö käyttää äänen tuottamiseen Csound-kirjastoa. Csound on Barry Vercoen MIT Media Labissä vuonna 1985 kehittämä musiikin ja äänen käsittelyyn keskittyvä ohjelmointiympäristö \cite{csounds01}. Sitä kehitetään aktiivisesti avoimen lähdekoodin periaattella ja se on lisensoitu GNU Lesser General Public License (LGPL) -lisenssillä joka mahdollistaa sen linkittämisen myös kaupalliseen suljetun lähdekoodin sovellukseen. Csound on käännetty useimmille laitealustoille ja siitä löytyy valmiiksi käännetty versio myös ARM-pohjaiselle Androidille. Android-käännös tarjoaa valmiina myös Androidin Native Development Kit (NDK) -rajapinnalla toteututetut ''koukut'' yleisimpiin Csoundin ominaisuuksiin. 
+Tämä hajoitustyö käyttää äänen tuottamiseen Csound-kirjastoa. Csound on Barry Vercoen MIT Media Labissä vuonna 1985 kehittämä musiikin ja äänen käsittelyyn keskittyvä ohjelmointiympäristö \cite{csounds01}. Sitä kehitetään aktiivisesti avoimen lähdekoodin periaattella ja se on lisensoitu GNU Lesser General Public License (LGPL) -lisenssillä joka mahdollistaa sen linkittämisen myös kaupalliseen suljetun lähdekoodin sovellukseen. Csound on käännetty useimmille laitealustoille ja siitä löytyy valmiiksi käännetty versio myös ARM-pohjaiselle Androidille. Android-käännös tarjoaa valmiina myös Androidin Native Development Kit (NDK) -rajapinnalla toteututetut ''koukut'' yleisimpiin Csound-API:n ominaisuuksiin. 
 
-Csound on kokoelma C/C++ -kielillä toteutettuja syntetisaattorimoduuleja sekä ympäristö joka mahdollistaa moduuleiden kytkemisen toisiinsa sekä niiden parametrien manipuloinnin aikajanalla. Csound ''ohjelmat'' ovat csd-päätteisiä tekstitiedostoja joka koostuvat instrumenttaja sisältävästä orchestra-osiosta ja score-osiosta (vrt. soittimet ja soittajat). Perinteinen käyttötapaus Csoundilla on ollut että muusikko ohjelmoi kappaleen csd-tiedostoon ja ''kääntää'' tai renderöi sen scound-kääntäjällä wav-tiedostoksi. Nykykoneet pystyvät toistamaan isojakin orkestereja reaaliajassa ja uskon että nykyään yleisin käyttötapaus on ohjata Csoundin ''käännös'' suoraan äänikortille tai esim. raituriohjelmalle ja tarvittaessa manipuloida parametreja reaaliajassa. 
+Csound on kokoelma C/C++ -kielillä toteutettuja syntetisaattorimoduuleja sekä ympäristö joka mahdollistaa moduuleiden kytkemisen toisiinsa sekä niiden parametrien manipuloinnin aikajanalla. Csound ''ohjelmat'' ovat csd-päätteisiä tekstitiedostoja joka koostuvat instrumentteja sisältävästä orchestra-osiosta ja score-osiosta joka säätää instrumenttien parametreja aikajanalla (vrt. soittimet ja soittajat). Perinteinen käyttötapaus Csoundilla on ollut että muusikko ohjelmoi kappaleen csd-tiedostoon ja ''kääntää'' tai renderöi sen Csound-kääntäjällä wav-tiedostoksi. Nykykoneet pystyvät toistamaan isojakin orkestereja reaaliajassa ja uskon että nykyään yleisin käyttötapaus on ohjata Csoundin ''käännös'' suoraan äänikortille tai esim. raituriohjelmalle ja tarvittaessa manipuloida parametreja reaaliajassa. 
 
 \section{Csoundin käyttö harjoitustyössä}
 
-Tämä sovellus käyttää kahta eri csd-tiedostoa, tai Csound-ohjelmaa. Csound käynnistetään ajamaan ''accel\_osc.csd'' -tiedoston määritelemää ohjelmaa kun vasemman yläkulman toggle asetetaan on-tilaan. ''accel\_osc.csd'' -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
+Tämä sovellus hyödyntää kahta eri csd-tiedostoa (Csound-ohjelmaa). Csound käynnistetään ajamaan accel\_osc.csd -tiedoston määritelemää ohjelmaa kun vasemman yläkulman toggle asetetaan on-tilaan. accel\_osc.csd -tiedostossa on määritetty että instrumentti 1 soi voimakkuudella 0 360000 sekuntia. Tämä mahdollistaa sen että Csound ''jää kuuntelemaan'' kiihtyvyysantureilta ''software bus''-väylän kautta tulevia tietoja. Csound sammuu oletuksena jos kaikki tiedossa olevat score-eventit on käsitelty. NDK-kirjastoja hyödyntäessä pitää olla tarkkana ettei tehdä turhaa laskentaa joka kuluttaa akkua joten kaikki UI:n muut nappulat sulkevat tämän Csound-instanssin.
 
-Toinen Csound-ohjelma ''score\_osc.csd'' jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin Csoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse miettiä ajoituksia.
+Toinen Csound-ohjelma score\_osc.csd jää vastaavasti kuuntelemaan 360000 sekunnin ajaksi, mutta suoraan instrumenttiin kytketyn ''reaaliaikaisen'' väylän asemesta syötetäänkin Csoundille score-tietoa. Kun ''PLAY SEQUENCE'' -nappia painetaan, generoidaan muistissa olevista pitch-arvoista score siten että ensimmäisen nuotin alkuaika on nolla ja seuraavien alkuaika lasketaan BPM-arvon perusteella. Tämä mahdollistaa sen että csound-pystyy hoitamaan nuottien ajoituksen tarkasti eikä Android-puolella tarvitse toteuttaa nuottien ajoituksia.
 
-Csound-Andoid-kirjasto tarjoaa CsoundAccelerometerBinding -oletustoteutuksen kiihtyvyysanturien hyödyntämiseen. Se hyödyntää Androidin TYPE\_ACCELEROMETER-rajapinnan kautta saatavia tietoja. Vastaava toteutus olisi helposti tehtävissä myös TYPE\_GRAVITY-rajapinnan anturitiedoille joissa on mukana ainoastaan painovoima eikä muita kiihtyvyyksiä ja joka siten sopipisi mahdollisesti paremmin tarkkaan melodiseen soittamiseen.
+Csound-Andoid-kirjasto tarjoaa CsoundAccelerometerBinding -oletustoteutuksen kiihtyvyysanturien hyödyntämiseen. Se hyödyntää Androidin TYPE\_ACCELEROMETER-rajapinnan kautta saatavia tietoja. Vastaava toteutus olisi helposti tehtävissä myös TYPE\_GRAVITY-rajapinnan anturitiedoille joissa on mukana ainoastaan painovoima eikä muita kiihtyvyyksiä ja joka siten sopipisi mahdollisesti paremmin tarkkaan melodiseen soittamiseen. 
+
+\pagebreak CsoundAccelerometerBinding ottaa sensorit käyttöön seuraavalla tavalla.
 
 \begin{lstlisting}[style=console, % title={Template files}
 ]
@@ -540,7 +550,7 @@ sensorManager = (SensorManager) context.
         Sensor.TYPE_ACCELEROMETER);
 \end{lstlisting}
 
-CsoundAccelerometerBinding-luokka implementoi Androidin SensorEventListener -rajapinnan ja se kytketään SensorManageriin seuraavaslla tavalla.
+CsoundAccelerometerBinding-luokka implementoi Androidin SensorEventListener -rajapinnan ja se kytketään SensorManageriin seuraavasti.
 
 \begin{lstlisting}[style=console, % title={Template files}
 ]
@@ -550,7 +560,7 @@ sensorManager.registerListener(this, sensor,
 
 \section{MainActivity.java}
 
-Soitto-toiminta käynnistyy vasemman yläkulman toggle-buttonilla. Resursseista luetaan accel\_osc.csd -tiedosto ja se tallennetaan cache-hakemistoon jotta Csound pystyy lukemaan sen. CsoundMotion on wrapper-luokka yllämainitulle CsoundAccelerometerBinding -luokalle joka välittää kiihtyvyysanturin tiedot Csoundille. Se myös pitää näytön päällä soiton ajan jotta nuottien tallennus soiton yhteydessä on mahdollista.
+Soitto-toiminta käynnistyy vasemman yläkulman toggle-buttonilla. Resursseista luetaan accel\_osc.csd -tiedosto ja se tallennetaan cache-hakemistoon jotta Csound pystyy lukemaan sen. Se myös pitää näytön päällä soiton ajan jotta nuottien tallennus soiton yhteydessä on mahdollista. Koodissa näkyvä CsoundMotion on Csoundin mukana tuleva wrapper-luokka yllämainitulle CsoundAccelerometerBinding -luokalle joka välittää kiihtyvyysanturin tiedot Csoundille.
 
 \begin{lstlisting}[style=console, % title={Template files}
 ]
